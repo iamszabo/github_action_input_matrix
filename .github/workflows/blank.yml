@@ -17,6 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.version }}
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    steps:
     - name: Create tag ${{ github.event.inputs.version }}
       run: |
         date >> asd
