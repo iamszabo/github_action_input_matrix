@@ -26,9 +26,9 @@ jobs:
         date >> asd
         git add .
         git commit -m "Asd" --author="Jenkins <jenkins@ci.local>"
-        git push origin head
-        git tag ios-${{ github.event.inputs.version }}
-        git push origin ios-${{ github.event.inputs.version }}
+        git push head
+        git tag ios-${{ github.event.inputs.version }} --author="Jenkins <jenkins@ci.local>"
+        git push ios-${{ github.event.inputs.version }}
 
   generate_matrix:
     runs-on: ubuntu-latest
