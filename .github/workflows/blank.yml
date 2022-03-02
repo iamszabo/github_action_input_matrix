@@ -7,10 +7,26 @@ on:
         required: true
         type: string
         default: 'Capital,Capital Xtra'
+      version:
+        required: true
+        type: string
+        default: '1'
   
 jobs:
+  tag_build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create tag ${{ github.event.inputs.version }}
+      run: |
+        date >> asd
+        git add .
+        git commit -m "Asd"
+        git push origin head
+
   generate_matrix:
     runs-on: ubuntu-latest
+    needs:
+      - tag_build
     outputs:
       brands: ${{ steps.generate-matrix-step.outputs.brands }}
 
