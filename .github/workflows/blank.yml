@@ -18,10 +18,10 @@ jobs:
       - name: Generate Matrix
         run: |
           BRANDS=$(echo "${{ github.event.inputs.brands }}" | perl -p -e "s/,/\",\"/g" | sed 's/^/[\"/g' | sed 's/$/\"]/g')
-          echo ${BRANDS}
+          echo ::set-output name=brands::${BRANDS}
 
 
-# echo ::set-output name=brands::${BRANDS}
+# 
 
 #  my_echo:
 #     runs-on: ubuntu-latest
