@@ -12,12 +12,14 @@ jobs:
   generate_matrix:
     runs-on: ubuntu-latest
     outputs:
-      brands: ${{ steps.generate-matrix.outputs.brands }}
+      brands: ${{ steps.generate-matrix-step.outputs.brands }}
 
     steps:
       - name: Generate Matrix
+        id: generate-matrix-step
         run: |
           BRANDS=$(echo "${{ github.event.inputs.brands }}" | perl -p -e "s/,/\",\"/g" | sed 's/^/[\"/g' | sed 's/$/\"]/g')
+          echo ${BRANDS}
           echo ::set-output name=brands::${BRANDS}
 
   my_echo:
