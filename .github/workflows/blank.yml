@@ -22,18 +22,9 @@ jobs:
           echo ${BRANDS}
           echo ::set-output name=brands::${BRANDS}
 
-  my_echo:
-    runs-on: ubuntu-latest
-    needs:
-      - generate_matrix
-    steps:
-      - name: Echo previous outputs
-        run: echo "${{ toJSON(needs.generate_matrix.outputs) }}"
-
   my_matrix:
     runs-on: ubuntu-latest
     needs:
-      - my_echo
       - generate_matrix
     strategy:
       matrix:
