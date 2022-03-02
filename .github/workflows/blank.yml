@@ -25,7 +25,7 @@ jobs:
       run: |
         date >> asd
         git add .
-        git commit -m "Asd"
+        git commit -m "Asd" --author="Jenkins <jenkins@ci.local>"
         git push origin head
         git tag ios-${{ github.event.inputs.version }}
         git push origin ios-${{ github.event.inputs.version }}
