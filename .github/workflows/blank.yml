@@ -16,7 +16,6 @@ jobs:
 
     steps:
       - name: Generate Matrix
-        id: generate-matrix
         run: |
           BRANDS=$(echo "${{ github.event.inputs.brands }}" | perl -p -e "s/,/\",\"/g" | sed 's/^/[\"/g' | sed 's/$/\"]/g')
           echo ::set-output name=brands::${BRANDS}
