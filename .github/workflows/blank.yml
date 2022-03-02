@@ -28,9 +28,9 @@ jobs:
         git config user.name "Jenkins"
         git add .
         git commit -m "Asd"
-        git push head
+        git push origin head
         git tag ios-${{ github.event.inputs.version }}
-        git push ios-${{ github.event.inputs.version }}
+        git push origin ios-${{ github.event.inputs.version }}
 
   generate_matrix:
     runs-on: ubuntu-latest
