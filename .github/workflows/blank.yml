@@ -21,16 +21,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Create tag ${{ github.event.inputs.version }}
+    - name: Make change
       run: |
         date >> asd
-        git config user.email "jenkins@ci.local"
-        git config user.name "Jenkins"
-        git add .
-        git commit -m "Asd"
-        git push origin head
-        git tag ios-${{ github.event.inputs.version }}
-        git push origin ios-${{ github.event.inputs.version }}
+
+    - name: Create tag ${{ github.event.inputs.version }}
+      uses: EndBug/add-and-commit@v8
+        with:
+          default_author: github_actions
+          message: Bumps iOS version number to ${{ github.event.inputs.version }}
+          tag: 'ios-${{ github.event.inputs.version }} --force'
+          push: true
 
   generate_matrix:
     runs-on: ubuntu-latest
