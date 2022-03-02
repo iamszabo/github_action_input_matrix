@@ -8,27 +8,41 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
-      apps:
+      brands:
         required: true
         type: string
-        default: 'Capital, Capital Xtra'
+        default: 'Capital,Capital Xtra'
   
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  generate_matrix:
     runs-on: ubuntu-latest
+    outputs:
+      brands: ${{ steps.generate-matrix.outputs.brands }}
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo "${{ github.event.inputs.apps }}"
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Generate Matrix
+        id: generate-matrix
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          BRANDS=$(echo "${{ github.event.inputs.brands }}" | perl -p -e "s/,/\",\"/g" | sed 's/^/[\"/g' | sed 's/$/\"]/g')
+          echo ::set-output name=brands::${BRANDS}
+
+ my_echo:
+    runs-on: ubuntu-latest
+    needs:
+      - generate_matrix
+    steps:
+      - name: Echo previous outputs
+        run: echo "${{ toJSON(needs.generate_matrix.outputs) }}"
+
+  my_matrix:
+    runs-on: ubuntu-latest
+    needs:
+      - my_echo
+      - generate_matrix
+    strategy:
+      matrix:
+        brand: ${{ fromJSON(needs.generate_matrix.outputs.brands) }}
+    steps:
+      - name: Matrix => (${{ matrix.brand }})
+        run: |
+          echo ${{ matrix.brand }}
