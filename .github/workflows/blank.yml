@@ -8,13 +8,14 @@ on:
         type: string
         default: 'Capital,Capital Xtra'
       version:
-        required: true
+        name: Version number, if not specified uses existing version number
         type: string
         default: '1'
   
 jobs:
   tag_build:
     runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.version }}
     steps:
     - name: Create tag ${{ github.event.inputs.version }}
       run: |
@@ -22,6 +23,8 @@ jobs:
         git add .
         git commit -m "Asd"
         git push origin head
+        git tag ios-${{ github.event.inputs.version }}
+        git push origin ios-${{ github.event.inputs.version }}
 
   generate_matrix:
     runs-on: ubuntu-latest
